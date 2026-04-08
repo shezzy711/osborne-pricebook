@@ -2,31 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Osborne Plumbing - Automated Price Book</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
-        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        p { color: #666; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Osborne Plumbing - Price Book</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Osborne Plumbing - Automated Price Book</h1>
-        <p>Demo coming soon.</p>
+
+    <!-- HEADER -->
+    <header class="app-header">
+        <h1>Osborne Plumbing</h1>
+        <span class="subtitle">Price Book</span>
+    </header>
+
+    <!-- VIEW 1: HOME -->
+    <div id="view-home" class="view active">
+        <div class="view-content">
+            <label for="job-search" class="input-label">Search jobs</label>
+            <input type="search" id="job-search" class="search-input" placeholder="e.g. toilet, leak, water heater...">
+
+            <label for="job-select" class="input-label">What's the job?</label>
+            <select id="job-select" class="job-select">
+                <option value="">Select a job type...</option>
+            </select>
+
+            <div class="media-section">
+                <p class="media-label">Optional: add context</p>
+                <div class="media-buttons">
+                    <button type="button" id="btn-photo" class="media-btn">
+                        <span class="media-icon">&#128247;</span>
+                        Take a Photo
+                    </button>
+                    <input type="file" id="photo-input" accept="image/*" capture="environment" hidden>
+
+                    <button type="button" id="btn-voice" class="media-btn">
+                        <span class="media-icon">&#127908;</span>
+                        Voice Note
+                    </button>
+                </div>
+
+                <div id="photo-preview" class="photo-preview" hidden>
+                    <img id="photo-thumb" alt="Captured photo">
+                    <button type="button" id="btn-remove-photo" class="remove-btn" aria-label="Remove photo">&times;</button>
+                </div>
+
+                <div id="voice-status" class="voice-status" hidden>
+                    <span class="voice-dot"></span>
+                    Voice note: <span id="voice-duration-display"></span>
+                    <button type="button" id="btn-remove-voice" class="remove-btn" aria-label="Remove voice note">&times;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sticky-cta">
+            <button type="button" id="btn-get-pricing" class="cta-btn" disabled>GET PRICING</button>
+        </div>
     </div>
+
+    <!-- VIEW 2: PRICING -->
+    <div id="view-pricing" class="view">
+        <div class="view-content">
+            <button type="button" id="btn-back-home" class="back-btn">&larr; Back</button>
+
+            <div id="pricing-photo" class="pricing-photo" hidden>
+                <img id="pricing-photo-img" alt="Job photo">
+            </div>
+
+            <h2 id="pricing-job-name" class="pricing-title"></h2>
+            <p id="pricing-job-desc" class="pricing-desc"></p>
+
+            <div id="tier-cards" class="tier-cards"></div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: SUMMARY -->
+    <div id="view-summary" class="view">
+        <div class="view-content">
+            <div class="summary-header">
+                <span class="summary-check">&#10003;</span>
+                <h2>Quote Ready</h2>
+            </div>
+
+            <div id="summary-card" class="summary-card"></div>
+
+            <div class="summary-actions">
+                <button type="button" id="btn-share" class="cta-btn">Share with Customer</button>
+                <button type="button" id="btn-new-quote" class="secondary-btn">Start New Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VOICE RECORDER OVERLAY -->
+    <div id="voice-overlay" class="overlay" hidden>
+        <div class="overlay-card">
+            <div class="recording-indicator">
+                <span class="rec-dot"></span>
+            </div>
+            <p class="rec-label">Recording...</p>
+            <span id="recording-timer" class="rec-timer">0:00</span>
+            <button type="button" id="btn-voice-stop" class="cta-btn stop-btn">Stop Recording</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
