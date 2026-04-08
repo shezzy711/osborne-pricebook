@@ -40,6 +40,7 @@
         els.pricingPhoto = document.getElementById('pricing-photo');
         els.pricingPhotoImg = document.getElementById('pricing-photo-img');
         els.summaryCard = document.getElementById('summary-card');
+        els.btnBackPricing = document.getElementById('btn-back-pricing');
         els.btnShare = document.getElementById('btn-share');
         els.btnNewQuote = document.getElementById('btn-new-quote');
         els.toast = document.getElementById('toast');
@@ -53,10 +54,8 @@
         var select = els.jobSelect;
         var currentVal = select.value;
 
-        // Remove all optgroups
-        while (select.options.length > 1) {
-            select.remove(1);
-        }
+        // Remove all optgroups and their options
+        select.querySelectorAll('optgroup').forEach(function (g) { g.remove(); });
 
         var categories = {};
         var lowerFilter = filter ? filter.toLowerCase().trim() : '';
@@ -159,6 +158,10 @@
         });
 
         // Summary
+        els.btnBackPricing.addEventListener('click', function () {
+            showView('pricing');
+        });
+
         els.btnShare.addEventListener('click', function () {
             handleShare();
         });
@@ -211,8 +214,8 @@
                 '<p class="tier-tagline">' + tierMeta.tagline + '</p>' +
                 '<div class="tier-price">' + formatCurrency(tierData.price) + '</div>' +
                 '<div class="tier-meta">' +
-                    '<span>&#9201; ~' + tierData.laborHours + ' hrs</span>' +
-                    '<span>&#128737; ' + tierMeta.warranty + '</span>' +
+                    '<span>~' + tierData.laborHours + ' hrs</span>' +
+                    '<span>' + tierMeta.warranty + '</span>' +
                 '</div>' +
                 '<p class="tier-solution">' + PRICEBOOK.solutions[tier] + '</p>' +
                 '<button type="button" class="tier-select-btn" data-tier="' + tier + '">Select ' + tierMeta.label + '</button>' +
@@ -246,10 +249,10 @@
                     '<span class="summary-detail-label">Labor Rate</span>' +
                     '<span class="summary-detail-value">' + formatCurrency(PRICEBOOK.laborRate) + '/hr</span>' +
                 '</div>' +
-                '<div class="summary-detail">' +
-                    '<span class="summary-detail-label">Scope</span>' +
-                    '<span class="summary-detail-value">' + PRICEBOOK.solutions[tier] + '</span>' +
-                '</div>' +
+            '</div>' +
+            '<div class="summary-scope">' +
+                '<div class="summary-scope-label">Scope</div>' +
+                '<div>' + PRICEBOOK.solutions[tier] + '</div>' +
             '</div>';
 
         // Attachments
